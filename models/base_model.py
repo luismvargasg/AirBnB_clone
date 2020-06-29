@@ -2,22 +2,36 @@
 """Module to define the BaseModel Class"""
 import uuid
 import datetime as dt
+from models import storage
 
 
 class BaseModel:
     """class that defines all common attributes/methods for other classes"""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Base class constructor method"""
-        self.id = str(uuid.uuid4())
-        self.created_at = dt.datetime.now()
-        self.updated_at = dt.datetime.now()
+
+        if kwargs is not None and len(kwargs) > 0:
+            for key, value in kwargs.items():
+                if key not in ["__class__"]:
+                    setattr(self, key, value)
+        elif args is not None and len(args) > 0:
+            attr = ["id", "created_at", "update_at", "name", "my_number"]
+            for idx, value in enumerate(args):
+                setattr(self, attr[x], value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = dt.datetime.now()
+            self.updated_at = dt.datetime.now()
+            storage.new(self)
 
     def save(self):
         """updates the public instance attribute updated_at with
         the current datetime.
         """
         self.updated_at = dt.datetime.now()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__
