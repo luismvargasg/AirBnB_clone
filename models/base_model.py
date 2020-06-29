@@ -18,7 +18,7 @@ class BaseModel:
         elif args is not None and len(args) > 0:
             attr = ["id", "created_at", "update_at", "name", "my_number"]
             for idx, value in enumerate(args):
-                setattr(self, attr[x], value)
+                setattr(self, attr[idx], value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = dt.datetime.now()

@@ -28,3 +28,7 @@ class FileStorage():
                 self.__objects = json.loads(json_file.read())
         except Exception:
             pass
+
+    def delete(self, key):
+        del self.__objects[key]
+        self.save()
