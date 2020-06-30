@@ -4,9 +4,18 @@ interpreter.
 """
 import cmd
 import sys
+import models
 import datetime as dt
 from models.base_model import BaseModel
-from models import storage
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
+list_Class = ["BaseModel", "User", "State", "City",
+              "Amenity", "Place", "Review"]
 
 
 class HBNBCommand(cmd.Cmd):
@@ -14,7 +23,6 @@ class HBNBCommand(cmd.Cmd):
     commands and inputs received through the keyboard.
     """
     prompt = '(hbnb)'
-    storage.reload()
 
     def do_quit(self, arg):
         """Quit command to exit the program\n"""
@@ -34,11 +42,12 @@ class HBNBCommand(cmd.Cmd):
         """
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        elif arg not in list_Class:
             print("** class doesn't exist **")
         else:
-            new_obj = BaseModel()
+            new_obj = eval(arg + '()')
             print(new_obj.id)
+            models.storage.save()
 
     def do_show(self, arg):
         """Prints the string representation of an instance based on the class
@@ -47,12 +56,12 @@ class HBNBCommand(cmd.Cmd):
         args = parse(arg)
         if not args:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in list_Class:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
         else:
-            dir_obj = storage.all()
+            dir_obj = models.storage.all()
             key = "{}.{}".format(args[0], args[1])
             if key not in dir_obj.keys():
                 print("** no instance found **")
@@ -66,33 +75,35 @@ class HBNBCommand(cmd.Cmd):
         args = parse(arg)
         if not args:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in list_Class:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
         else:
-            dir_obj = storage.all()
+            dir_obj = models.storage.all()
             key = "{}.{}".format(args[0], args[1])
             if key not in dir_obj.keys():
                 print("** no instance found **")
             else:
-                storage.delete(key)
+                models.storage.delete(key)
 
     def do_all(self, arg):
         """Prints all string representation of all instances based or not on
         the class name. Ex: $ all BaseModel or $ all.
         """
-        if arg != "BaseModel":
+        if arg not in list_Class and len(arg) != 0:
             print("** class doesn't exist **")
         else:
-            dir_obj = storage.all()
+            dir_obj = models.storage.all()
             my_list = []
             for obj_id in dir_obj.keys():
-                string = "[{}] ({}) {}".format(
-                    dir_obj[obj_id]["__class__"],
-                    dir_obj[obj_id]["id"],
-                    dir_obj[obj_id])
-                my_list.append(string)
+                if dir_obj[obj_id]["__class__"] == arg or len(arg) == 0:
+                    string = "[{}] ({}) {}".format(
+                        dir_obj[obj_id]["__class__"],
+                        dir_obj[obj_id]["id"],
+                        dir_obj[obj_id])
+
+                    my_list.append(string)
             print(my_list)
 
     def do_update(self, arg):
@@ -103,12 +114,12 @@ class HBNBCommand(cmd.Cmd):
         args = parse(arg)
         if not args:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in list_Class:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
         else:
-            dir_obj = storage.all()
+            dir_obj = models.storage.all()
             key = "{}.{}".format(args[0], args[1])
             if key not in dir_obj.keys():
                 print("** no instance found **")
@@ -117,11 +128,11 @@ class HBNBCommand(cmd.Cmd):
             elif len(args) < 4:
                 print("** value missing **")
             else:
-                dir_obj[key].update({args[2]: args[3]})
+                dir_obj[key].update({args[2]: "{:s}".format(str(args[3]))})
                 new_dict = dir_obj[key]
                 base_obj = BaseModel(**new_dict)
                 base_obj.updated_at = dt.datetime.now()
-                storage.save(base_obj)
+                models.storage.save()
 
 
 def parse(arg):
