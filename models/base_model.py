@@ -9,8 +9,12 @@ class BaseModel:
     """class that defines all common attributes/methods for other classes"""
 
     def __init__(self, *args, **kwargs):
-        """Base class constructor method"""
+        """Base class constructor method
 
+        Args:
+            args: Received Tuple with parameters to initialize a new object
+            kwargs: Recceived Dictionary with parameters to init a new object.
+        """
         if kwargs is not None and len(kwargs) > 0:
             for key, value in kwargs.items():
                 if key not in ["__class__"]:
