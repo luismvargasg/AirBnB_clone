@@ -4,6 +4,7 @@ interpreter.
 """
 import cmd
 import sys
+import datetime as dt
 from models.base_model import BaseModel
 from models import storage
 
@@ -13,6 +14,7 @@ class HBNBCommand(cmd.Cmd):
     commands and inputs received through the keyboard.
     """
     prompt = '(hbnb)'
+    storage.reload()
 
     def do_quit(self, arg):
         """Quit command to exit the program\n"""
@@ -92,6 +94,34 @@ class HBNBCommand(cmd.Cmd):
                     dir_obj[obj_id])
                 my_list.append(string)
             print(my_list)
+
+    def do_update(self, arg):
+        """Updates an instance based on the class name and id by adding or
+        updating attribute (save the change into the JSON file). Ex: $ update
+        BaseModel 1234-1234-1234 email "aibnb@holbertonschool.com".
+        """
+        args = parse(arg)
+        if not args:
+            print("** class name missing **")
+        elif args[0] != "BaseModel":
+            print("** class doesn't exist **")
+        elif len(args) < 2:
+            print("** instance id missing **")
+        else:
+            dir_obj = storage.all()
+            key = "{}.{}".format(args[0], args[1])
+            if key not in dir_obj.keys():
+                print("** no instance found **")
+            elif len(args) < 3:
+                print("** attribute name missing **")
+            elif len(args) < 4:
+                print("** value missing **")
+            else:
+                dir_obj[key].update({args[2]: args[3]})
+                new_dict = dir_obj[key]
+                base_obj = BaseModel(**new_dict)
+                base_obj.updated_at = dt.datetime.now()
+                storage.save(base_obj)
 
 
 def parse(arg):
