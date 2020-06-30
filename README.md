@@ -68,7 +68,7 @@ A command interpreter is a program designed to read lines of text "commands" ent
 
 | **File** | **Description** |
 |----------|-----------------|
-| [BaseModel](./File: models/base_model.py) | Class BaseModel that defines all common attributes/methods for other classes |
+| [BaseModel](./models/base_model.py) | Class BaseModel that defines all common attributes/methods for other classes |
 | [File Storage](./models/engine/file_storage.py) | Serialized instances in a JSON file |
 
 ## Prerequisites
