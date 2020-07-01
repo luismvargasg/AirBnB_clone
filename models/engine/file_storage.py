@@ -3,17 +3,24 @@
 dictionary representation.
 """
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage():
     """class that serializes instances to a JSON file and
     deserializes JSON file to instances
     """
+    __file_path = "file.json"
+    __objects = {}
 
     def __init__(self):
         """constructor to the class FileStorage"""
-        self.__file_path = "file.json"
-        self.__objects = {}
         pass
 
     def all(self):
@@ -33,15 +40,12 @@ class FileStorage():
             json_file.write(json.dumps(self.__objects))
 
     def reload(self):
-        """deserializes the JSON file to __objects ONLY if the JASON file
-        exists, otherwise, do nothing.  If the file doesn't exist, exceptions
-        should be raised
+        """deserializes the JSON file to __objects (only if the JSON file
+        (__file_path) exists; otherwise, nothing happends.
         """
         try:
-            with open(self.__file_path, 'r') as json_file:
-                json_load = json.load(json_file)
-            for keys, values in json_load.items():
-                self.__objects[k] = BaseModel(**values)
+            with open(self.__file_path, "r") as json_file:
+                self.__objects = json.loads(json_file.read())
         except:
             pass
 
