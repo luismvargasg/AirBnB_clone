@@ -13,5 +13,9 @@ class State(BaseModel):
     name = ""
 
     def __init__(self, *args, **kwargs):
-
+        """constructor for class State
+        Args:
+            args: Received Tuple with parameters to initialize a new object
+            kwargs: Recceived Dictionary with parameters to init a new object
+        """
         super().__init__()
