@@ -10,7 +10,14 @@ class Amenity(BaseModel):
     Args:
         BaseModel ([class]): [description]
     """
-    def __init__(self):
 
+    name = ""
+
+    def __init__(self, *args, **kwargs):
+        """amenity class constructor method
+
+        Args:
+            args: Received Tuple with parameters to initialize a new object
+            kwargs: Recceived Dictionary with parameters to init a new object.
+        """
         super().__init__()
-        self.name = ""

@@ -10,9 +10,15 @@ class Review(BaseModel):
     Args:
         BaseModel ([class]): [description]
     """
-    def __init__(self):
+    place_id = ""
+    user_id = ""
+    text = ""
 
+    def __init__(self, *args, **kwargs):
+        """review class constructor method
+
+        Args:
+            args: Received Tuple with parameters to initialize a new object
+            kwargs: Recceived Dictionary with parameters to init a new object.
+        """
         super().__init__()
-        self.place_id = ""
-        self.user_id = ""
-        self.text = ""

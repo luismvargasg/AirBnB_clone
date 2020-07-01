@@ -10,10 +10,11 @@ class User(BaseModel):
     Args:
         BaseModel ([class]): [description]
     """
-    def __init__(self):
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""
+
+    def __init__(self, *args, **kwargs):
 
         super().__init__()
-        self.email = ""
-        self.password = ""
-        self.first_name = ""
-        self.last_name = ""
