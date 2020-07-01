@@ -3,10 +3,18 @@
 import unittest
 import pep8
 from models.base_model import BaseModel
+import inspect
 
 
 class TestBaseModel(unittest.TestCase):
     """defining the unittest cases for BaseModel class"""
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        Set up class method for the doc tests
+        """
+        cls.setup = inspect.getmembers(BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
         """Test that we conform to PEP8."""

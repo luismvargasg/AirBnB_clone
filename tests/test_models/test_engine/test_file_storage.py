@@ -3,10 +3,18 @@
 import unittest
 import pep8
 from models.engine.file_storage import FileStorage
+import inspect
 
 
 class TestFileStore(unittest.TestCase):
     """defining the unittest cases for FileStore class"""
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        Set up class method for the doc tests
+        """
+        cls.setup = inspect.getmembers(FileStorage, inspect.isfunction)
 
     def test_pep8_conformance(self):
         """Test that we conform to PEP8."""
