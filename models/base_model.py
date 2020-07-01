@@ -18,11 +18,10 @@ class BaseModel:
         if kwargs is not None and len(kwargs) > 0:
             for key, v in kwargs.items():
                 if key in ["created_at", "updated_at"]:
-                    setattr(self, key, dt.strptime(v, '%Y-%m-%dT%H:%M:%S.%f'))
+                    setattr(self, key, dt.datetime.strptime(v,
+                            '%Y-%m-%dT%H:%M:%S.%f'))
                 elif key == "id":
                     self.id = v
-                else:
-                    setattr(self, key, v)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = dt.datetime.now()
