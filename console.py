@@ -128,10 +128,11 @@ class HBNBCommand(cmd.Cmd):
                 models.storage.save()
 
     def default(self, line):
+        """Method called to complete an input line when
+        no command-specific complete_*()"""
         args = line.split('.')
         command = "{}.{}('{}')".format(args[0],
                                        args[1].replace('()', ''), args[0])
-        print(command)
         print(eval(command))
         return
 
@@ -143,7 +144,4 @@ def parse(arg):
 
 if __name__ == '__main__':
 
-    if len(sys.argv) > 1:
-        HBNBCommand().onecmd(' '.join(sys.argv[1:]))
-    else:
-        HBNBCommand().cmdloop()
+    HBNBCommand().cmdloop()
