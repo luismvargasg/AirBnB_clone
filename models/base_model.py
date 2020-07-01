@@ -16,13 +16,13 @@ class BaseModel:
             kwargs: Recceived Dictionary with parameters to init a new object.
         """
         if kwargs is not None and len(kwargs) > 0:
-            for key, value in kwargs.items():
-                if key not in ["__class__"]:
-                    setattr(self, key, value)
-        elif args is not None and len(args) > 0:
-            attr = ["id", "created_at", "update_at", "name", "my_number"]
-            for idx, value in enumerate(args):
-                setattr(self, attr[idx], value)
+            for key, v in kwargs.items():
+                if key in ["created_at", "updated_at"]:
+                    setattr(self, key, dt.strptime(v, '%Y-%m-%dT%H:%M:%S.%f'))
+                elif key == "id":
+                    self.id = v
+                else:
+                    setattr(self, key, v)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = dt.datetime.now()
