@@ -57,3 +57,26 @@ class BaseModel:
             self.id,
             self.__dict__)
         return string
+
+    def all(class_name):
+        """Update your command interpreter
+        (console.py) to retrieve all instances of
+        a class by using: <class name>.all()
+        """
+        dir_obj = models.storage.all()
+        my_list = []
+        for obj_id in dir_obj.keys():
+            if dir_obj[obj_id].__class__.__name__ == class_name:
+                my_list.append(str(dir_obj[obj_id]))
+        return my_list
+
+    def count(class_name):
+        """Update your command interpreter
+        (console.py) to retrieve the number of
+        instances of a class: <class name>.count()."""
+        dir_obj = models.storage.all()
+        n_elem = 0
+        for obj_id in dir_obj.keys():
+            if dir_obj[obj_id].__class__.__name__ == class_name:
+                n_elem += 1
+        return n_elem

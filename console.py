@@ -127,6 +127,14 @@ class HBNBCommand(cmd.Cmd):
                 setattr(dir_obj[key], args[2], args[3])
                 models.storage.save()
 
+    def default(self, line):
+        args = line.split('.')
+        command = "{}.{}('{}')".format(args[0],
+                                       args[1].replace('()', ''), args[0])
+        print(command)
+        print(eval(command))
+        return
+
 
 def parse(arg):
     """Convert a series of zero or more numbers to an argument tuple"""
@@ -134,4 +142,8 @@ def parse(arg):
 
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+
+    if len(sys.argv) > 1:
+        HBNBCommand().onecmd(' '.join(sys.argv[1:]))
+    else:
+        HBNBCommand().cmdloop()
