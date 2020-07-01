@@ -98,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
             dir_obj = models.storage.all()
             my_list = []
             for obj_id in dir_obj.keys():
-                if len(arg) == 0:
+                if len(arg) == 0 or dir_obj[obj_id].__class__.__name__ == arg:
                     my_list.append(str(dir_obj[obj_id]))
             print(my_list)
 
@@ -124,10 +124,7 @@ class HBNBCommand(cmd.Cmd):
             elif len(args) < 4:
                 print("** value missing **")
             else:
-                dir_obj[key].update({args[2]: "{:s}".format(str(args[3]))})
-                new_dict = dir_obj[key]
-                base_obj = BaseModel(**new_dict)
-                base_obj.updated_at = dt.datetime.now()
+                setattr(dir_obj[key], args[2], args[3])
                 models.storage.save()
 
 
