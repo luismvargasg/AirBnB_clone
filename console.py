@@ -14,14 +14,13 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
-list_Class = ["BaseModel", "User", "State", "City",
-              "Amenity", "Place", "Review"]
-
 
 class HBNBCommand(cmd.Cmd):
     """initialization of HBNBCommand console to manage the different
     commands and inputs received through the keyboard.
     """
+    list_Class = ["BaseModel", "User", "State", "City",
+                  "Amenity", "Place", "Review"]
     prompt = '(hbnb)'
 
     def do_quit(self, arg):
