@@ -98,13 +98,8 @@ class HBNBCommand(cmd.Cmd):
             dir_obj = models.storage.all()
             my_list = []
             for obj_id in dir_obj.keys():
-                if dir_obj[obj_id]["__class__"] == arg or len(arg) == 0:
-                    string = "[{}] ({}) {}".format(
-                        dir_obj[obj_id]["__class__"],
-                        dir_obj[obj_id]["id"],
-                        dir_obj[obj_id])
-
-                    my_list.append(string)
+                if len(arg) == 0:
+                    my_list.append(str(dir_obj[obj_id]))
             print(my_list)
 
     def do_update(self, arg):
