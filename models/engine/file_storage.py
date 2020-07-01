@@ -14,6 +14,7 @@ class FileStorage():
         """constructor to the class FileStorage"""
         self.__file_path = "file.json"
         self.__objects = {}
+        pass
 
     def all(self):
         """Prints all string representation of all instances
@@ -32,13 +33,16 @@ class FileStorage():
             json_file.write(json.dumps(self.__objects))
 
     def reload(self):
-        """deserializes the JSON file to __objects (only if the JSON file
-        (__file_path) exists; otherwise, nothing happends.
+        """deserializes the JSON file to __objects ONLY if the JASON file
+        exists, otherwise, do nothing.  If the file doesn't exist, exceptions
+        should be raised
         """
         try:
-            with open(self.__file_path, "r") as json_file:
-                self.__objects = json.loads(json_file.read())
-        except Exception:
+            with open(self.__file_path, 'r') as json_file:
+                json_load = json.load(json_file)
+            for keys, values in json_load.items():
+                self.__objects[k] = BaseModel(**values)
+        except:
             pass
 
     def delete(self, key):
