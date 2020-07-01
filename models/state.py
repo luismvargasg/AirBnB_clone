@@ -10,7 +10,8 @@ class State(BaseModel):
     Args:
         BaseModel ([class]): [description]
     """
-    def __init__(self):
+    name = ""
+
+    def __init__(self, *args, **kwargs):
 
         super().__init__()
-        self.name = ""
