@@ -8,18 +8,31 @@
 
 - [AirBnB clone - The console](#airbnb-clone---the-console)
 	- [Table of Contents](#table-of-contents)
+	- [Project General Objectives](#project-general-objectives)
 	- [Project Description](#project-description)
 	- [Command Interpreter Description](#command-interpreter-description)
 		- [How to start it](#how-to-start-it)
 		- [How to use it](#how-to-use-it)
 		- [Examples](#examples)
-	- [Project General Objectives](#project-general-objectives)
 	- [Directory Files Description](#directory-files-description)
 	- [Prerequisites](#prerequisites)
 	- [Built With](#built-with)
 	- [AUTHORS](#authors)
 	- [License](#license)
 	- [Acknowledgments](#acknowledgments)
+
+## Project General Objectives
+
+* How to create a Python package.
+* How to create a command interpreter in Python using the cmd module.
+* What is Unit testing and how to implement it in a large project.
+* How to serialize and deserialize a Class.
+* How to write and read a JSON file.
+* How to manage datetime.
+* What is an UUID.
+* What is *args and how to use it.
+* What is **kwargs and how to use it.
+* How to handle named arguments in a function.
 
 ## Project Description
 
@@ -43,33 +56,147 @@ A command interpreter is a program designed to read lines of text "commands" ent
 
 ### How to start it
 
+The first step is to clone this repository to download all the needed files to run this console. All files are already in executable mode, and all the folders contains the __init__.py file to covert this folders into packages.
+
+Then you need to execute in your console the executable file console.py:
+```
+user@ubuntu:~/AirBnB$ ./console.py
+```
+
+The command prompt is started and it should show the next line:
+
+```
+(hbnb)
+```
+
+If you type help you can see the documented commands you can use inside the console:
+```
+user@ubuntu:~/AirBnB$ ./console.py
+(hbnb) help
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+
+(hbnb) 
+(hbnb) help quit
+Quit command to exit the program
+
+(hbnb) 
+(hbnb) 
+(hbnb) quit 
+user@ubuntu:~/AirBnB$
+```
+
 ### How to use it
+
+Once you are into the console you can use it in two ways:
 
 **Interactive Mode:**
 
+```
+$ ./console.py
+(hbnb) help
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+
+(hbnb) 
+(hbnb) 
+(hbnb) quit
+$
+```
+
 **Non-Interactive Mode:**
+
+```
+$ echo "help" | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+$ cat test_help
+help
+$
+$ cat test_help | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+```
 
 ### Examples
 
-## Project General Objectives
+Here we are going to show you some examples of how to use it, if you don't see here some example of a command you can use the **help** command plus the command you are interested for to see more information.
 
-* How to create a Python package.
-* How to create a command interpreter in Python using the cmd module.
-* What is Unit testing and how to implement it in a large project.
-* How to serialize and deserialize a Class.
-* How to write and read a JSON file.
-* How to manage datetime.
-* What is an UUID.
-* What is *args and how to use it.
-* What is **kwargs and how to use it.
-* How to handle named arguments in a function.
+```
+user:~/AirBnB_clone$ ./console.py
+(hbnb)help
+
+Documented commands (type help <topic>):
+========================================
+EOF  all  create  destroy  help  quit  show  update
+
+(hbnb)
+(hbnb)help EOF
+EOF command to exit the program
+(hbnb)help show
+Prints the string representation of an instance based on the class
+        name and id. Ex: $ show BaseModel 1234-1234-1234.
+
+(hbnb)all
+["[BaseModel] (c2b13498-612b-402d-8867-c651d8a3e300) {'id': 'c2b13498-612b-402d-8867-c651d8a3e300', 'created_at': datetime.datetime(2020, 7, 1, 6, 6, 58, 992599), 'updated_at': datetime.datetime(2020, 7, 1, 6, 6, 58, 992620)}", "[BaseModel] (06d0b1de-64bd-4d09-a4d8-8bab4946ab79) {'id': '06d0b1de-64bd-4d09-a4d8-8bab4946ab79', 'created_at': datetime.datetime(2020, 7, 1, 6, 5, 12, 270928), 'updated_at': datetime.datetime(2020, 7, 1, 6, 5, 12, 271022)}", "[BaseModel] (0c487f26-6f60-42e6-9562-4da485c8f36c) {'id': '0c487f26-6f60-42e6-9562-4da485c8f36c', 'created_at': datetime.datetime(2020, 7, 1, 6, 6, 53, 321446), 'updated_at': datetime.datetime(2020, 7, 1, 6, 6, 53, 321471)}"]
+(hbnb)show c2b13498-612b-402d-8867-c651d8a3e300
+** class doesn't exist **
+(hbnb)show BaseModel c2b13498-612b-402d-8867-c651d8a3e300
+[BaseModel] (c2b13498-612b-402d-8867-c651d8a3e300) {'id': 'c2b13498-612b-402d-8867-c651d8a3e300', 'created_at': datetime.datetime(2020, 7, 1, 6, 6, 58, 992599), 'updated_at': datetime.datetime(2020, 7, 1, 6, 6, 58, 992620)}
+(hbnb)
+(hbnb)update
+** class name missing **
+(hbnb)update BaseName
+** class doesn't exist **
+(hbnb)quit
+user:~/AirBnB_clone$
+```
+
+If you want to create a new BaseModel you can type:
+```
+(hbnb)create
+** class name missing **
+(hbnb)create BaseModel
+0c5ac80d-58f4-45f0-b824-b0c2e677f2bb
+(hbnb)
+```
+Notice that if you miss one required argument, the program gives you an advise of what you are missing.
+If you want to show the object you just made you can type:
+```
+(hbnb)show BaseModel 0c5ac80d-58f4-45f0-b824-b0c2e677f2bb
+[BaseModel] (0c5ac80d-58f4-45f0-b824-b0c2e677f2bb) {'updated_at': datetime.datetime(2020, 7, 2, 0, 44, 16, 864379), 'created_at': datetime.datetime(2020, 7, 2, 0, 44, 16, 864364), 'id': '0c5ac80d-58f4-45f0-b824-b0c2e677f2bb'}
+(hbnb)
+```
 
 ## Directory Files Description
 
 | **File** | **Description** |
 |----------|-----------------|
-| [BaseModel](./models/base_model.py) | Class BaseModel that defines all common attributes/methods for other classes |
-| [File Storage](./models/engine/file_storage.py) | Serialized instances in a JSON file |
+| [File Storage](./models/engine/file_storage.py) | Module that serializes instances in a JSON file and deserializes JSON file to instances. |
+| [Console](./console.py) | Program that contains the entry point of the command interpreter. |
+| [BaseModel](./models/base_model.py) | Class BaseModel that defines all common attributes/methods for other classes. |
+| [Amenity](./models/amenity.py) | File that contains the Amenity class that inherit from BaseModel. |
+| [City](./models/city.py) | File that contains the City class that inherit from BaseModel. |
+| [Place](./models/place.py) | File that contains the Place class that inherit from BaseModel. |
+| [Review](./models/review.py) | File that contains the Review class that inherit from BaseModel. |
+| [State](./models/state.py) | File that contains the State class that inherit from BaseModel. |
+| [User](./models/user.py) | File that contains the User class that inherit from BaseModel. |
+| [AUTHORS](./AUTHORS) | File that contains the AUTHORS of this project. |
+| [TESTS](./tests) | Directory that contains all the Unittest files to test the different classes and methods. |
 
 ## Prerequisites
 
