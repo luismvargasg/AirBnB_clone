@@ -80,3 +80,28 @@ class BaseModel:
             if dir_obj[obj_id].__class__.__name__ == class_name:
                 n_elem += 1
         return n_elem
+
+    def show(class_name):
+        """Update your command interpreter
+        (console.py) to retrieve the number of
+        instances of a class: <class name>.count()."""
+        dir_obj = models.storage.all()
+        args = class_name.split(',')
+        for obj_id in dir_obj.keys():
+            if dir_obj[obj_id].__class__.__name__ == class_name_s[0]\
+               and dir_obj[obj_id].id == class_name_s[1]:
+                return dir_obj[obj_id]
+        return
+
+    def destroy(class_name):
+        """Update your command interpreter
+        (console.py) to retrieve the number of
+        instances of a class: <class name>.count()."""
+        dir_obj = models.storage.all()
+        args = class_name.split(',')
+        key = "{}.{}".format(args[0], args[1])
+        if key not in dir_obj.keys():
+            print("** no instance found **")
+        else:
+            models.storage.delete(key)
+        return

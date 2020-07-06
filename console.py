@@ -131,8 +131,13 @@ class HBNBCommand(cmd.Cmd):
         """Method called to complete an input line when
         no command-specific complete_*()"""
         args = line.split('.')
-        command = "{}.{}('{}')".format(args[0],
-                                       args[1].replace('()', ''), args[0])
+        class_name = args[0]
+        kwargs = args[1].split('(')
+        fc_name = kwargs[0]
+        values = class_name
+        if (kwargs[1] != ")"):
+            values = values + ',' + kwargs[1][:-1]
+        command = "{}.{}('{}')".format(class_name, fc_name, values)
         print(eval(command))
         return
 
