@@ -88,8 +88,8 @@ class BaseModel:
         dir_obj = models.storage.all()
         args = class_name.split(',')
         for obj_id in dir_obj.keys():
-            if dir_obj[obj_id].__class__.__name__ == class_name_s[0]\
-               and dir_obj[obj_id].id == class_name_s[1]:
+            if dir_obj[obj_id].__class__.__name__ == args[0]\
+               and dir_obj[obj_id].id == args[1]:
                 return dir_obj[obj_id]
         return
 
